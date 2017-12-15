@@ -21,10 +21,6 @@
 	border-radius: 50%;
 	display:inline-block;
 }
-h1 {
-	font-size: 20px;
-}
-
 </style>
 <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
 <link href="CSS/form.css"  rel='stylesheet' type='text/css'>

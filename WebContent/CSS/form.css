@@ -137,6 +137,7 @@ input[type='submit'] {
   width: 100%;
 }
 
+
 .form__field {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -227,9 +228,10 @@ h1 {
 	
 }
 
+
+
 h6 {
 	color: white;
-	
 	font-size: 15px;
 }
 

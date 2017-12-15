@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.servlet.ServletException;
@@ -21,8 +20,6 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 @MultipartConfig
 public class FileUploadHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ArrayList<String> city_list = new ArrayList<String>();
-	int cityValueToaAssigned = 0;
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,16 +31,12 @@ public class FileUploadHandler extends HttpServlet {
 
 		HashSet<String> set = new HashSet<String>();
 		String[] arr = new String[3];
-
-		int edge = 0;
-		
 		ObjectNode obNode = null;
 		int size = 0;
+		
 		try {
 			size = Integer.parseInt(request.getParameter("maxNodes"));
-
 		} catch (NumberFormatException ne) {
-
 			response.getWriter().print("Value must be an integer");
 		} catch (Exception e) {
 			response.getWriter().print(e.getMessage());
@@ -51,12 +44,12 @@ public class FileUploadHandler extends HttpServlet {
 		}
 
 		int[][] graph = new int[size + 1][size + 1];
-		
+
 		preProcess(graph);
-		
+
 		BufferedReader bufferedReader;
 		CsvMapper csvMapper = new CsvMapper();
-		
+
 		ArrayNode arrayNode = csvMapper.createArrayNode();
 		ArrayNode sourceNode = csvMapper.createArrayNode();
 
@@ -64,25 +57,20 @@ public class FileUploadHandler extends HttpServlet {
 			bufferedReader = new BufferedReader(new InputStreamReader(filePart.getInputStream()));
 			bufferedReader.readLine();
 			while ((stringLine = bufferedReader.readLine()) != null) {
-
-				edge++;
-
-				ObjectNode jNode = csvMapper.createObjectNode();
+				
 				arr = stringLine.split(",");
-
 				String src = arr[0] = arr[0].trim();
 				String dest = arr[1] = arr[1].trim();
 				String weight = arr[2] = arr[2].trim();
-
-				src = src.trim();
-				dest = dest.trim();
-				weight = weight.trim();
-
+				
+				//Define the adjacency matrix
 				int x = Integer.parseInt(src);
 				int y = Integer.parseInt(dest);
 				int z = Integer.parseInt(weight);
 				graph[x][y] = z;
-
+				
+				//Define json object for displaying the graph
+				ObjectNode jNode = csvMapper.createObjectNode();
 				jNode.put("id", src + "-" + dest);
 				jNode.put("source", src);
 				jNode.put("target", dest);
@@ -90,10 +78,9 @@ public class FileUploadHandler extends HttpServlet {
 				jNode.put("type", "arrow");
 
 				if (!set.contains(src)) {
-
 					set.add(src);
+					
 					ObjectNode xNode = csvMapper.createObjectNode();
-
 					xNode.put("id", src);
 					xNode.put("label", src);
 					xNode.put("x", Math.random() * 4 + 1);
@@ -103,10 +90,9 @@ public class FileUploadHandler extends HttpServlet {
 				}
 
 				if (!set.contains(dest)) {
-
 					set.add(dest);
+					
 					ObjectNode xNode = csvMapper.createObjectNode();
-
 					xNode.put("id", dest);
 					xNode.put("label", dest);
 					xNode.put("x", Math.random() * 4 + 1);
@@ -115,23 +101,24 @@ public class FileUploadHandler extends HttpServlet {
 					sourceNode.add(xNode);
 				}
 				arrayNode.add(jNode);
-
 			}
 
 			obNode = (ObjectNode) csvMapper.createObjectNode().set("edges", arrayNode);
 			obNode.set("nodes", sourceNode);
-			System.out.println(obNode.toString());
+			//System.out.println(obNode.toString());
 
 		} catch (IOException e) {
 			System.out.println("Error while printing.");
 
 		}
+		//Send graph to back-end and json to front-end
 		session.setAttribute("graph", graph);
 		session.setAttribute("json", obNode);
 		request.getRequestDispatcher("FindCenter").forward(request, response);
 
 	}
 
+	//To preprocess the adjacency matrix
 	public static void preProcess(int[][] matrix) {
 		int n = matrix.length;
 		int inf = 9999;
