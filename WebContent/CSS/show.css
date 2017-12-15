@@ -22,7 +22,7 @@
 	border-color: #07889B;
 	position: absolute;
 	max-height: 400 px;
-	background-image: url("base.png");
+	background-image: url("../Backgrounds/base.png");
 	
 }
 
@@ -66,5 +66,5 @@ h1 {
 
 body {
 	top: 0px;
-	background-image: url("background.png");
+	background-image: url("../Backgrounds/background.png");
 }

@@ -10,7 +10,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Yellowtail"
 	rel="stylesheet">
-<link href="show.css"  rel='stylesheet' type='text/css'>
+<link href="CSS/show.css"  rel='stylesheet' type='text/css'>
 </head>
 
 <script src="sig/sigma.core.js"></script>
