@@ -44,16 +44,17 @@ public class FindCP extends HttpServlet {
 
 		int max = priArray[0];
 		int val = 0;
+		
 		for (int i = 0; i < result.size(); i++) {
-			if (priArray[result.get(i)] > max)
-				max = priArray[result.get(i)];
+			
+			if (priArray[result.get(i)] > max) max = priArray[result.get(i)];
 		}
 
 		for (int i = 0; i < priArray.length; i++) {
-			if (priArray[i] == max)
-				val = i;
+			
+			if (priArray[i] == max) val = i;
 		}
-
+		
 		// Convert it val to array and send to diplay.jsp
 		ArrayList<Integer> arr = new ArrayList<>();
 		arr.add(val);
@@ -64,16 +65,14 @@ public class FindCP extends HttpServlet {
 
 		request.getRequestDispatcher("/display.jsp").forward(request, response);
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
-		//
 	}
 
 	public static void print(int[][] dist) {
@@ -85,7 +84,6 @@ public class FindCP extends HttpServlet {
 				if (dist[i][j] == 9999)
 					System.out.print("INF ");
 				else
-
 					System.out.print(dist[i][j] + "   ");
 			}
 			System.out.println();
@@ -93,43 +91,38 @@ public class FindCP extends HttpServlet {
 	}
 
 	List<Integer> getPaths(int[][] graph) {
+		
 		int V = graph.length;
-
 		int dist[][] = new int[V][V];
 
 		// Base case
 		for (int i = 0; i < V; i++) {
 			for (int j = 0; j < V; j++) {
+				
 				dist[i][j] = graph[i][j];
 			}
 		}
-
 		for (int k = 0; k < V; k++) {
 
 			for (int i = 0; i < V; i++) {
 
 				for (int j = 0; j < V; j++) {
 
-					if (dist[i][k] + dist[k][j] < dist[i][j])
-						dist[i][j] = dist[i][k] + dist[k][j];
+					if (dist[i][k] + dist[k][j] < dist[i][j]) dist[i][j] = dist[i][k] + dist[k][j];
 				}
-
 			}
 		}
 		
-
-		System.out.println("");
-
-		// Print the centers
-
 		return getCenters(dist);
 	}
 
 	List<Integer> getCenters(int dist[][]) {
+		
 		int V = dist.length;
-
 		int[] len = new int[V];
+		
 		for (int i = 0; i < V; i++) {
+			
 			len[i] = 0;
 			for (int j = 0; j < V; j++) {
 				if (i != j && dist[i][j] > len[i])
@@ -137,7 +130,6 @@ public class FindCP extends HttpServlet {
 			}
 		}
 		
-
 		// Get the min value
 		int center = len[0];
 		for (int i = 1; i < len.length; i++) {
@@ -151,8 +143,6 @@ public class FindCP extends HttpServlet {
 			if (len[i] == center)
 				res.add(i);
 		}
-
-		
 		return res;
 	}
 
