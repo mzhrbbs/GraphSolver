@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+	
 <style>
-
 .button {
 	background-color: #C0C0C0;;
 	border: none;
@@ -22,11 +22,10 @@
 	display:inline-block;
 }
 </style>
+	
 <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
 <link href="CSS/form.css"  rel='stylesheet' type='text/css'>
-
 </head>
-
    <body> 
    <h1 align=center>Graph Center</h1>
      <form action="directed.jsp" >
@@ -41,7 +40,5 @@
      <form action="priority.jsp" >
      <input type="submit" class="button" value="Variation-3 " >
      </form>                
-    
     </body>
-
 </html>
